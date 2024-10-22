@@ -5,3 +5,4 @@ align/
 videos/
 shape_predictor_68_face_landmarks.dat
 preprocess_data2.py
+README.md
