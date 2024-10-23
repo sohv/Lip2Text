@@ -13,7 +13,6 @@ BATCH_SIZE = 32  # Batch size for data loaders
 SEQ_LENGTH = 29  # Sequence length of lip frames
 
 # 1. Load .npy files containing lip regions
-# Load .npy files containing lip regions
 def load_lip_data(data_path):
     npy_files = glob.glob(os.path.join(data_path, "*.npy"))
     data = {os.path.basename(f).replace("_lips.npy", ""): np.load(f) for f in npy_files}  # Adjust this line
@@ -71,13 +70,12 @@ class LipReadingDataset(Dataset):
     def labels_to_categorical(self, label):
         return to_categorical(self.word_to_index[label], num_classes=N_CLASSES)
 
-# Main Execution: Loading Data, Labels, and Generators
+# Loading Data, Labels, and Generators
 if __name__ == "__main__":
     # Load data and labels
     lip_data = load_lip_data(DATA_PATH)
     align_labels = load_alignments(ALIGN_PATH)
 
-    # Debugging output
     print(f"Loaded lip data: {len(lip_data)} entries")
     print(f"Loaded align labels: {len(align_labels)} entries")
 
@@ -92,9 +90,7 @@ if __name__ == "__main__":
     train_keys, val_keys, test_keys = prepare_splits(lip_data, align_labels)
 
     # Define the directory for saving splits
-    SPLIT_DIR = "dataset"  # Change this to your desired output directory
-
-    # Create the output directory if it doesn't exist
+    SPLIT_DIR = "dataset"
     os.makedirs(SPLIT_DIR, exist_ok=True)
 
     # Save the training, validation, and test splits
@@ -102,7 +98,7 @@ if __name__ == "__main__":
     np.save(os.path.join(SPLIT_DIR, "val_keys.npy"), val_keys)
     np.save(os.path.join(SPLIT_DIR, "test_keys.npy"), test_keys)
 
-    # Save the corresponding lip data and labels for each split
+    # Corresponding lip data and labels for each split
     for split_name, keys in zip(['train', 'val', 'test'], [train_keys, val_keys, test_keys]):
         split_data = {k: lip_data[k] for k in keys}
         split_labels = {k: align_labels[k] for k in keys}
@@ -119,7 +115,7 @@ if __name__ == "__main__":
     val_loader = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=False)
     test_loader = DataLoader(test_dataset, batch_size=BATCH_SIZE, shuffle=False)
 
-    # Example: Verify shapes of generated batches
+    # Verify shapes of generated batches
     X_batch, y_batch = next(iter(train_loader))
     print(f"X_batch shape: {X_batch.shape}, y_batch shape: {y_batch.shape}")
 
