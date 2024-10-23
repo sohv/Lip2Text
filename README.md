@@ -13,5 +13,4 @@ Design and implement an artificial intelligence system capable of accurately tra
 8. Achieve a level of accuracy comparable to human lip-reading abilities.
 
 ## Dataset  
-[Click here to access the dataset]([https://drive.google.com/drive/....](https://drive.google.com/drive/folders/1kTHPTFt0TVk2ZUV0aR0oSoV_n_kMu3Wu?usp=drive_link
-))  
+[Click here to access the dataset]([https://drive.google.com/drive/folders/1kTHPTFt0TVk2ZUV0aR0oSoV_n_kMu3Wu?usp=drive_link])
