@@ -6,8 +6,8 @@ import torch
 from torch.utils.data import Dataset, DataLoader
 from sklearn.model_selection import train_test_split
 
-DATA_PATH = "/Users/sohan/Desktop/Lip2Text/processed_data" 
-ALIGN_PATH = "/Users/sohan/Desktop/Lip2Text/align"
+DATA_PATH = "Lip2Text/processed_data" 
+ALIGN_PATH = "Lip2Text/align"
 N_CLASSES = 500  # Number of unique word labels
 BATCH_SIZE = 32  # Batch size for data loaders
 SEQ_LENGTH = 29  # Sequence length of lip frames
@@ -23,13 +23,14 @@ def load_alignments(align_path):
     align_files = glob.glob(os.path.join(align_path, "*.align"))
     labels = {}
     for file in align_files:
+        video_id = os.path.basename(file).replace(".align", "")
         with open(file, "r") as f:
+            labels[video_id] = []  # Initialize as a list
             for line in f:
                 parts = line.strip().split()
                 if len(parts) == 3:
                     _, _, word = parts
-                    video_id = os.path.basename(file).replace(".align", "")
-                    labels[video_id] = word
+                    labels[video_id].append(word)  # Append words to the list
     return labels
 
 # 3. Prepare data splits
@@ -56,7 +57,8 @@ class LipReadingDataset(Dataset):
         self.data = data
         self.labels = labels
         self.keys = keys
-        self.word_to_index = {word: idx for idx, word in enumerate(set(labels.values()))}
+        unique_words = set(word for label_list in labels.values() for word in label_list)
+        self.word_to_index = {word: idx for idx, word in enumerate(unique_words)}
 
     def __len__(self):
         return len(self.keys)
@@ -64,11 +66,22 @@ class LipReadingDataset(Dataset):
     def __getitem__(self, idx):
         key = self.keys[idx]
         X = self.data[key]
-        y = self.labels_to_categorical(self.labels[key])
-        return torch.tensor(X, dtype=torch.float32), torch.tensor(y, dtype=torch.float32)
+        y = " ".join(self.labels[key])  # Convert list of words to a single string
+        y_categorical = self.labels_to_categorical(y)
+
+        return torch.tensor(X, dtype=torch.float32), torch.tensor(y_categorical, dtype=torch.float32)
+
 
     def labels_to_categorical(self, label):
-        return to_categorical(self.word_to_index[label], num_classes=N_CLASSES)
+        words = label.split()
+        # Create a one-hot encoded array
+        one_hot_encoded = np.zeros(N_CLASSES, dtype=np.float32)
+        for word in words:
+            if word in self.word_to_index:
+                index = self.word_to_index[word]
+                one_hot_encoded[index] = 1  # Set the index to 1
+        return one_hot_encoded
+
 
 # Loading Data, Labels, and Generators
 if __name__ == "__main__":
@@ -90,7 +103,7 @@ if __name__ == "__main__":
     train_keys, val_keys, test_keys = prepare_splits(lip_data, align_labels)
 
     # Define the directory for saving splits
-    SPLIT_DIR = "dataset"
+    SPLIT_DIR = "datasett"
     os.makedirs(SPLIT_DIR, exist_ok=True)
 
     # Save the training, validation, and test splits
