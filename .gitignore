@@ -8,3 +8,7 @@ preprocess_data2.py
 README.md
 dataset/
 DS_Store
+datasettt/
+label_check.py
+read_align.py
+verify_data.py

@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 
-data = np.load("dataset/train_data.npy", allow_pickle=True)
+data = np.load("dataset/traindata.npy", allow_pickle=True)
 
 print(f"Extracted content type: {type(data.item())}")
 

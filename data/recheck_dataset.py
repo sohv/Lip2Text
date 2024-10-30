@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import random
 
 # Load the standardized data
-standardized_content = np.load("dataset/standardized_train_data.npy", allow_pickle=True).item()
+standardized_content = np.load("dataset/traindata.npy", allow_pickle=True).item()
 
 # Basic overview
 print(f"Total samples: {len(standardized_content)}")
@@ -51,12 +51,3 @@ if duplicate_keys:
     print(f"Warning: Found duplicate keys: {duplicate_keys}")
 else:
     print("No duplicates found.")
-
-# Check for missing data (if applicable)
-# Example: Uncomment and adjust if you have corresponding labels
-# expected_labels = ... # Load or define your expected labels
-# missing_labels = [key for key in expected_labels if key not in standardized_content]
-# if missing_labels:
-#     print(f"Warning: Found missing labels for keys: {missing_labels}")
-# else:
-#     print("All samples have matching labels.")

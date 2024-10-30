@@ -1,7 +1,7 @@
 import numpy as np
 
 # Load the .npy file
-data = np.load("dataset/train_data.npy", allow_pickle=True)
+data = np.load("datasett/train_data.npy", allow_pickle=True)
 
 print(f"Extracted content type: {type(data.item())}")
 
@@ -32,6 +32,6 @@ for key, value in content.items():
         print(f"Warning: Value for key {key} is not a NumPy array.")
 
 print(f"Total standardized samples: {len(standardized_content)}")
-save_path = "dataset/standardized_train_data.npy"
+save_path = "datasett/traindata.npy"
 np.save(save_path, standardized_content, allow_pickle=True)
 print(f"Standardized data saved to {save_path}")

@@ -1,7 +1,7 @@
 import numpy as np
 
-standardized_content = np.load("dataset/standardized_train_data.npy", allow_pickle=True).item()
-alignments = np.load("dataset/train_labels.npy", allow_pickle=True).item()
+standardized_content = np.load("datasett/traindata.npy", allow_pickle=True).item()
+alignments = np.load("datasett/train_labels.npy", allow_pickle=True).item()
 
 # new dictionary to hold adjusted alignments
 adjusted_alignments = {}
@@ -24,4 +24,4 @@ for key, value in standardized_content.items():
     else:
         adjusted_alignments[key] = original_alignment
 
-np.save("dataset/adjusted_alignments.npy", adjusted_alignments)
+np.save("datasett/alignments.npy", adjusted_alignments)
