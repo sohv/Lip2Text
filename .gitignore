@@ -12,3 +12,5 @@ datasettt/
 label_check.py
 read_align.py
 verify_data.py
+check_train.py
+model/__pycache__/
